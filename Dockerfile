@@ -1,6 +1,10 @@
-FROM ipfs/go-ipfs
+FROM pataquets/go-ipfs
 
+COPY ./ipfs_config .
 RUN \
-  sed -i "s/tcp\/8080$fi/8080\n  \#IPFS_CONFIG/" \
+  sed -i "/\#IPFS_CONFIG$/r ipfs_config" \
     /usr/local/bin/start_ipfs && \
-  grep -C 5 IPFS_CONFIG /usr/local/bin/start_ipfs
+  nl /usr/local/bin/start_ipfs \
+  && \
+  grep "^  ipfs config --json Swarm.AddrFilters '\[$" \
+    /usr/local/bin/start_ipfs
