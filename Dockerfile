@@ -3,7 +3,7 @@ FROM ipfs/go-ipfs
 RUN \
   apk --no-cache add coreutils \
   && \
-  sed -i "s/tcp\/8080$fi/8080\n  \#IPFS_CONFIG/" \
+  sed -i "/ipfs config Addresses.Gateway \/ip4\/0.0.0.0\/tcp\/8080$/a\ \ \#IPFS_CONFIG" \
     /usr/local/bin/start_ipfs \
   && \
   nl /usr/local/bin/start_ipfs \
